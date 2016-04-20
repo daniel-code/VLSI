@@ -88,9 +88,9 @@ int readIn()
 int op_search(int state, int op, int list_num)
 {
 	int i;
-	for (i = list_num - 1; i >= 0; i--)
+	for (i = list_num+1; i >= 0; i--)
 	{
-		if (sample1[list1[i].num].result == op  && list1[i].state<state)
+		if (sample1[list1[i].num].result == op  && list1[i].state<=state)
 			return list1[i].state;
 	}
 	return 0;
@@ -121,10 +121,10 @@ void list_Scheduling(int end)
 
 	for (i = 0; i<end; i++)
 	{
+		//printf("\n\nstate %d\n", state);
 		opstate1 = op_search(state, sample1[i].op1, list_num);
-		printf("V%d  is at state %d\n", sample1[i].op1, opstate1);
 		opstate2 = op_search(state, sample1[i].op2, list_num);
-		printf("V%d  is at state %d\n", sample1[i].op2, opstate2);
+		//printf("V%d  is at state %d \t V%d  is at state %d\n", sample1[i].op1, opstate1,sample1[i].op2, opstate2);
 		if (opstate1>opstate2)
 			opstate = opstate1;
 		else
@@ -139,6 +139,7 @@ void list_Scheduling(int end)
 					list1[list_num].num = i;
 					list1[list_num].op = sample1[i].op;
 					list1[list_num].state = state;
+					//printf("V%d  is at state %d \n", sample1[i].result, state);
 					alulist[state].add--;
 					break;
 				}
@@ -157,6 +158,7 @@ void list_Scheduling(int end)
 					list1[list_num].num = i;
 					list1[list_num].op = sample1[i].op;
 					list1[list_num].state = state;
+					//printf("V%d  is at state %d \n", sample1[i].result, state);
 					alulist[state].mult--;
 					break;
 				}
@@ -194,12 +196,18 @@ void list_Scheduling(int end)
 			}
 		}
 	}
-	for (i = 0; i<end; i++)
+	for (i = 0; i < end; i++)
 	{
 		if (list1[i].op == 1)
-			fprintf(fptr_out, "state %d\t v%d = v%d + v%d\n", list1[i].state + 1, sample1[list1[i].num].result, sample1[list1[i].num].op1, sample1[list1[i].num].op2);
+		{
+			fprintf(fptr_out, "state%3d\t v%3d = v%3d + v%3d\n", list1[i].state, sample1[list1[i].num].result, sample1[list1[i].num].op1, sample1[list1[i].num].op2);
+			printf("state%3d\t v%3d = v%3d + v%3d\n", list1[i].state, sample1[list1[i].num].result, sample1[list1[i].num].op1, sample1[list1[i].num].op2);
+		}
 		else if (list1[i].op == 2)
-			fprintf(fptr_out, "state %d\t v%d = v%d * v%d\n", list1[i].state + 1, sample1[list1[i].num].result, sample1[list1[i].num].op1, sample1[list1[i].num].op2);
+		{
+			fprintf(fptr_out, "state%3d\t v%3d = v%3d * v%3d\n", list1[i].state, sample1[list1[i].num].result, sample1[list1[i].num].op1, sample1[list1[i].num].op2);
+			printf("state%3d\t v%3d = v%3d * v%3d\n", list1[i].state, sample1[list1[i].num].result, sample1[list1[i].num].op1, sample1[list1[i].num].op2);
+		}
 	}
 
 	fclose(fptr_out);
