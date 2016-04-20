@@ -111,8 +111,24 @@ void list_Scheduling(int end)
 	scanf("%d", &opmult);
 	printf("\n 輸入限制的加法器個數...");
 	scanf("%d", &opadd);
+	printf("*****************************\n");
+	printf("*     Resource Constraint\n");
+	printf("* \n");
+	printf("*      Mult Constraint : %2d\n", opmult);
+	printf("*      Add Constraint  : %2d\n",opadd);
+	printf("*\n");
+	printf("*****************************\n");
 
-	printf("\n乘法器個數：%d,加法器個數：%d\n", opmult, opadd);
+	fprintf(fptr_out, "*****************************\n");
+	fprintf(fptr_out, "*     Resource Constraint\n");
+	fprintf(fptr_out, "* \n");
+	fprintf(fptr_out, "*      Mult Constraint : %2d\n", opmult);
+	fprintf(fptr_out, "*      Add Constraint  : %2d\n", opadd);
+	fprintf(fptr_out, "*\n");
+	fprintf(fptr_out, "*****************************\n");
+
+
+
 	for (i = 0; i<Size; i++)                              //alulist 初始化
 	{
 		alulist[i].add = opadd;
@@ -196,6 +212,8 @@ void list_Scheduling(int end)
 			}
 		}
 	}
+
+
 	for (i = 0; i < end; i++)
 	{
 		if (list1[i].op == 1)
@@ -221,12 +239,15 @@ void list_Scheduling(int end)
 int main()
 {
 
-	int end;
+	int end,i=1;
+	while (i!=2)
+	{
+		end = readIn();
+		list_Scheduling(end);
+		printf("如果要繼續的話，請輸入 1 ，離開請輸入 2  : ");
+		scanf("%d", &i);
+	}
 
-	end = readIn();
-
-
-	list_Scheduling(end);
 
 
 
