@@ -21,7 +21,10 @@ output reg	[21:0] control;
 reg [3:0] Current_State, Next_State;
 
 always @(posedge clk or negedge rst_n) begin
+  if(!rst_n)
+    Current_State <= `S0;
   else
+    Current_State <= Next_State;
 end
 
 always @(Current_State or start) 
